@@ -1,0 +1,22 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/calculadora"
+  to = "/calculadora.html"
+  status = 200
+
+[[redirects]]
+  from = "/calculadoras"
+  to = "/calculadoras.html"
+  status = 200
+
+[[redirects]]
+  from = "/servicios"
+  to = "/servicios.html"
+  status = 200
+
+[[redirects]]
+  from = "/cerebro-colectivo"
+  to = "/cerebro-colectivo.html"
+  status = 200

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivilMind | Analisis Sismico de Tanques ACI 350.3</title>
+<style>
+  :root {
+    --azul-acero: #0F3D5C;
+    --cian: #00C2D1;
+    --gris-claro: #F4F7F9;
+    --gris-borde: #D6DEE3;
+    --texto: #1C2B33;
+  }
+  * { box-sizing: border-box; font-family: 'Montserrat', 'Poppins', 'Segoe UI', sans-serif; }
+  body { margin: 0; background: var(--gris-claro); color: var(--texto); }
+
+  header {
+    background: var(--azul-acero);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  header .logo-dot { width: 14px; height: 14px; background: var(--cian); border-radius: 3px; }
+  header h1 { font-size: 20px; margin: 0; font-weight: 600; }
+  header span { font-size: 13px; opacity: 0.8; display: block; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: white;
+    border: 1px solid var(--gris-borde);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(15,61,92,0.05);
+  }
+  .card h2 {
+    font-size: 16px;
+    color: var(--azul-acero);
+    margin-top: 0;
+    border-bottom: 2px solid var(--cian);
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+
+  fieldset { border: none; margin: 0 0 18px 0; padding: 0; }
+  legend { font-weight: 600; font-size: 13px; color: var(--azul-acero); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .field-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 10px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  label { font-size: 12px; color: #55677A; }
+  input, select {
+    padding: 9px 10px;
+    border: 1px solid var(--gris-borde);
+    border-radius: 8px;
+    font-size: 13px;
+    background: #FAFCFD;
+  }
+  input:focus, select:focus { outline: 2px solid var(--cian); border-color: var(--cian); }
+
+  .servicio-opciones { display: flex; flex-direction: column; gap: 10px; }
+  .servicio-opciones label {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--gris-borde);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--texto);
+    cursor: pointer;
+  }
+  .servicio-opciones label:hover { border-color: var(--cian); }
+  .servicio-opciones .precio { margin-left: auto; font-weight: 700; color: var(--azul-acero); }
+
+  button.btn-calcular {
+    width: 100%;
+    background: var(--azul-acero);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  button.btn-calcular:hover { background: #0c3049; }
+  button.btn-calcular:disabled { background: #9AA9B2; cursor: not-allowed; }
+
+  .resultados { display: none; }
+  .resultados.visible { display: block; }
+
+  .resultado-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+  .resultado-item {
+    background: var(--gris-claro);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .resultado-item .label { font-size: 11px; color: #55677A; text-transform: uppercase; }
+  .resultado-item .valor { font-size: 18px; font-weight: 700; color: var(--azul-acero); }
+
+  .badge-costo {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,194,209,0.12);
+    color: var(--azul-acero);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .upsell-box {
+    background: linear-gradient(135deg, rgba(15,61,92,0.04), rgba(0,194,209,0.08));
+    border: 1px dashed var(--cian);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--azul-acero);
+    margin-bottom: 16px;
+  }
+
+  .advertencia {
+    font-size: 11px;
+    color: #8A6D00;
+    background: #FFF7DD;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 10px;
+  }
+
+  #chart-presiones { width: 100%; height: 340px; margin-top: 10px; }
+
+  .error-box {
+    background: #FDECEC;
+    color: #A3241C;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  .loading { display: none; text-align: center; padding: 30px; color: var(--azul-acero); font-size: 14px; }
+  .loading.visible { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-dot"></div>
+  <div>
+    <h1>CivilMind</h1>
+    <span>Plataforma de calculo estructural impulsada por IA</span>
+  </div>
+</header>
+
+<div class="container">
+  <div class="grid">
+
+    <!-- FORMULARIO -->
+    <div class="card">
+      <h2>Analisis Sismico de Tanques Enterrados &mdash; ACI 350.3-2020</h2>
+      <form id="form-tanque">
+
+        <fieldset>
+          <legend>Datos del proyecto</legend>
+          <div class="field-row">
+            <div class="field">
+              <label>Nombre del proyecto</label>
+              <input type="text" name="proyecto" value="Proyecto A - Xtructurart" required>
+            </div>
+            <div class="field">
+              <label>Email / ID de usuario</label>
+              <input type="email" name="usuario_id" placeholder="tu@correo.com" required>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Geometria (m)</legend>
+          <div class="field-row">
+            <div class="field"><label>Largo (L)</label><input type="number" step="0.01" name="L" value="15.0" required></div>
+            <div class="field"><label>Ancho (B)</label><input type="number" step="0.01" name="B" value="12.0" required></div>
+            <div class="field"><label>Altura muro (Hw)</label><input type="number" step="0.01" name="Hw" value="6.35" required></div>
+            <div class="field"><label>Espesor muro (tw)</label><input type="number" step="0.01" name="tw" value="0.50" required></div>
+            <div class="field"><label>Espesor losa techo (tc)</label><input type="number" step="0.01" name="tc" value="0.20" required></div>
+            <div class="field"><label>Espesor losa fundacion (tp)</label><input type="number" step="0.01" name="tp" value="0.50" required></div>
+            <div class="field"><label>Altura de agua (HL)</label><input type="number" step="0.01" name="HL" value="4.70" required></div>
+            <div class="field"><label>Altura de relleno (Hs)</label><input type="number" step="0.01" name="Hs" value="6.35" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Materiales</legend>
+          <div class="field-row">
+            <div class="field"><label>f'c (MPa)</label><input type="number" step="0.1" name="fc" value="31.0" required></div>
+            <div class="field"><label>&gamma; concreto (kN/m3)</label><input type="number" step="0.001" name="gamma_c" value="23.544" required></div>
+            <div class="field"><label>&gamma; liquido (kN/m3)</label><input type="number" step="0.01" name="gamma_L" value="10.0" required></div>
+            <div class="field"><label>&gamma; suelo (kN/m3)</label><input type="number" step="0.01" name="gamma_s" value="20.5" required></div>
+            <div class="field"><label>K0 (presion en reposo)</label><input type="number" step="0.01" name="K0" value="0.51" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Cargas sobre cubierta</legend>
+          <div class="field-row">
+            <div class="field"><label>Carga muerta CM (kPa)</label><input type="number" step="0.01" name="CM" value="5.52" required></div>
+            <div class="field"><label>Carga viva CV (kPa)</label><input type="number" step="0.01" name="CV" value="4.5" required></div>
+            <div class="field"><label>% CV para peso sismico (&alpha;)</label><input type="number" step="0.01" name="alpha" value="0.5" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Parametros sismicos (ASCE 7)</legend>
+          <div class="field-row">
+            <div class="field"><label>Ss (g)</label><input type="number" step="0.01" name="Ss" value="0.79" required></div>
+            <div class="field"><label>S1 (g)</label><input type="number" step="0.01" name="S1" value="0.27" required></div>
+            <div class="field"><label>Fa</label><input type="number" step="0.01" name="Fa" value="1.2" required></div>
+            <div class="field"><label>Fv</label><input type="number" step="0.01" name="Fv" value="2.2" required></div>
+            <div class="field"><label>TL (s)</label><input type="number" step="0.1" name="TL" value="12.0" required></div>
+            <div class="field"><label>Factor importancia (I)</label><input type="number" step="0.01" name="I" value="1.5" required></div>
+            <div class="field"><label>R impulsivo (Ri)</label><input type="number" step="0.01" name="Ri" value="2.25" required></div>
+            <div class="field"><label>R convectivo (Rc)</label><input type="number" step="0.01" name="Rc" value="1.0" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Nivel de servicio</legend>
+          <div class="servicio-opciones">
+            <label>
+              <input type="radio" name="nivel_servicio" value="calculo_automatico" checked>
+              Calculo automatico (primer uso gratis)
+              <span class="precio" id="precio-calculo">Gratis / USD 10</span>
+            </label>
+            <label>
+              <input type="radio" name="nivel_servicio" value="revision_express">
+              Revision express (ingeniero revisa, sin firma, 24h)
+              <span class="precio">USD 50</span>
+            </label>
+            <label>
+              <input type="radio" name="nivel_servicio" value="validacion_firmada">
+              Validacion firmada (con matricula COPNIA, 72h)
+              <span class="precio">USD 180</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn-calcular" id="btn-submit">Calcular analisis sismico</button>
+      </form>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="card">
+      <h2>Resultados</h2>
+
+      <div class="loading" id="loading">Calculando... esto puede tardar unos segundos</div>
+
+      <div class="resultados" id="resultados-box">
+
+        <div class="badge-costo" id="badge-costo"></div>
+
+        <div class="resultado-grid" id="resultado-grid"></div>
+
+        <div id="chart-presiones"></div>
+
+        <button type="button" class="btn-calcular" id="btn-descargar-pdf" style="background: var(--cian); color: var(--azul-acero); margin-bottom: 14px;">
+          Descargar memoria de calculo (PDF)
+        </button>
+        <div class="upsell-box" id="upsell-box"></div>
+        <div class="advertencia" id="advertencia-box"></div>
+      </div>
+
+      <div class="error-box" id="error-box" style="display:none;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script>
+  // ============================================================
+  // CONFIGURACION: apuntar a tu backend FastAPI desplegado
+  // ============================================================
+  const API_BASE_URL = "https://civilmind-api.onrender.com";
+  const ENDPOINT_CALCULO = API_BASE_URL + "/calcular/tanque-sismico-aci350";
+
+  const form = document.getElementById("form-tanque");
+  const btnSubmit = document.getElementById("btn-submit");
+  const loadingBox = document.getElementById("loading");
+  const resultadosBox = document.getElementById("resultados-box");
+  const errorBox = document.getElementById("error-box");
+  const btnDescargarPdf = document.getElementById("btn-descargar-pdf");
+  let ultimoPayloadUsado = null;
+
+  function construirPayload(formData) {
+    const val = (name) => parseFloat(formData.get(name));
+
+    return {
+      proyecto: formData.get("proyecto"),
+      usuario_id: formData.get("usuario_id"),
+      nivel_servicio: formData.get("nivel_servicio"),
+      n_puntos_perfil: 40,
+      geometria: {
+        L: val("L"), B: val("B"), Hw: val("Hw"), tw: val("tw"),
+        tc: val("tc"), tp: val("tp"), HL: val("HL"), Hs: val("Hs"),
+      },
+      materiales: {
+        fc: val("fc"), gamma_c: val("gamma_c"), gamma_L: val("gamma_L"),
+        gamma_s: val("gamma_s"), K0: val("K0"),
+      },
+      cargas_cubierta: {
+        CM: val("CM"), CV: val("CV"), alpha: val("alpha"),
+      },
+      sismo: {
+        Ss: val("Ss"), S1: val("S1"), Fa: val("Fa"), Fv: val("Fv"),
+        TL: val("TL"), I: val("I"), Ri: val("Ri"), Rc: val("Rc"),
+      },
+    };
+  }
+
+  function mostrarResultados(data) {
+    resultadosBox.classList.add("visible");
+    errorBox.style.display = "none";
+
+    const badge = document.getElementById("badge-costo");
+    const costo = data.facturacion.costo_usd;
+    const textoCosto = costo === 0 ? "GRATIS (primer uso)" : `USD ${costo.toFixed(2)}`;
+    badge.innerHTML = `Servicio: <strong>${data.facturacion.nivel_servicio}</strong> &nbsp;|&nbsp; Costo: <strong>${textoCosto}</strong> &nbsp;|&nbsp; Entrega: ${data.facturacion.tiempo_entrega_estimado_horas}h`;
+
+    const grid = document.getElementById("resultado-grid");
+    const items = [
+      ["Cortante en la base (V)", data.resultados.V_base + " kN"],
+      ["Momento en la base (Mb)", data.resultados.Mb + " kN.m"],
+      ["Momento de volteo (M0)", data.resultados.M0 + " kN.m"],
+      ["Altura de ola (dmax)", data.resultados.dmax_altura_ola + " m"],
+      ["Sds / Sd1", data.espectro.Sds + " / " + data.espectro.Sd1],
+      ["Periodo impulsivo (Ti)", data.dinamica.Ti + " s"],
+      ["Periodo convectivo (Tc)", data.dinamica.Tc + " s"],
+      ["Coef. Ci / Cc", data.dinamica.Ci + " / " + data.dinamica.Cc],
+    ];
+    grid.innerHTML = items.map(([label, valor]) => `
+      <div class="resultado-item">
+        <div class="label">${label}</div>
+        <div class="valor">${valor}</div>
+      </div>
+    `).join("");
+
+    const y = data.perfil_presiones.map(p => p.y);
+    const py1 = data.perfil_presiones.map(p => p.Py1);
+    const py2 = data.perfil_presiones.map(p => p.Py2);
+
+    Plotly.newPlot("chart-presiones", [
+      { x: py1, y: y, mode: "lines", name: "Mitad delantera (Py1)", line: { color: "#0F3D5C", width: 3 } },
+      { x: py2, y: y, mode: "lines", name: "Mitad posterior (Py2)", line: { color: "#00C2D1", width: 3 } },
+    ], {
+      title: "Presion lateral resultante en muros (kPa vs altura m)",
+      xaxis: { title: "Presion (kPa)" },
+      yaxis: { title: "Altura z (m)" },
+      margin: { t: 40, l: 50, r: 20, b: 40 },
+      legend: { orientation: "h", y: -0.2 },
+    }, { responsive: true });
+
+    document.getElementById("upsell-box").innerText = data.mensaje_upsell;
+    document.getElementById("advertencia-box").innerText = data.advertencia;
+  }
+
+  function mostrarError(mensaje) {
+    resultadosBox.classList.remove("visible");
+    errorBox.style.display = "block";
+    errorBox.innerText = "Error: " + mensaje;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    btnSubmit.disabled = true;
+    loadingBox.classList.add("visible");
+    resultadosBox.classList.remove("visible");
+    errorBox.style.display = "none";
+
+    const formData = new FormData(form);
+    const payload = construirPayload(formData);
+    ultimoPayloadUsado = payload;
+
+    try {
+      const resp = await fetch(ENDPOINT_CALCULO, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.detail || `Error HTTP ${resp.status}`);
+      }
+
+      const data = await resp.json();
+      mostrarResultados(data);
+    } catch (err) {
+      mostrarError(err.message || "No se pudo conectar con el servidor de calculo.");
+    } finally {
+      btnSubmit.disabled = false;
+      loadingBox.classList.remove("visible");
+    }
+  });
+
+  btnDescargarPdf.addEventListener("click", async () => {
+    if (!ultimoPayloadUsado) {
+      alert("Primero debes calcular el analisis antes de descargar el PDF.");
+      return;
+    }
+    btnDescargarPdf.disabled = true;
+    btnDescargarPdf.innerText = "Generando PDF...";
+
+    try {
+      const resp = await fetch(ENDPOINT_CALCULO + "/reporte-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(ultimoPayloadUsado),
+      });
+
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.detail || `Error HTTP ${resp.status}`);
+      }
+
+      const blob = await resp.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `CivilMind_Memoria_${ultimoPayloadUsado.proyecto.replace(/\s+/g, "_")}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert("No se pudo generar el PDF: " + (err.message || "error desconocido"));
+    } finally {
+      btnDescargarPdf.disabled = false;
+      btnDescargarPdf.innerText = "Descargar memoria de calculo (PDF)";
+    }
+  });
+</script>

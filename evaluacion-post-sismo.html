@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluación Post-Sismo | CivilMind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cyan:#00c2d4; --cyan-dark:#0093a8; --navy:#0d2438; --navy-light:#123a5c;
+  --bg:#f6f9fb; --text:#1a2b3c; --muted:#5a6b7c; --line:#e2e9ef;
+  --verde:#16a34a; --amarillo:#f59e0b; --rojo:#dc2626;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.55}
+h1,h2,h3,.logo{font-family:Poppins,Inter,sans-serif;margin:0}
+
+/* ---------- Header ---------- */
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;padding:18px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:700;letter-spacing:.2px}
+.logo span{color:var(--cyan)}
+.crumb{margin-left:auto;font-size:13px;color:#b9c9d6}
+.crumb a{color:#b9c9d6;text-decoration:none}
+
+/* ---------- Hero ---------- */
+.hero{background:#fff;border-bottom:1px solid var(--line);padding:28px 24px}
+.hero-in{max-width:920px;margin:0 auto}
+.hero h1{font-size:26px;color:var(--navy)}
+.hero p{color:var(--muted);margin:8px 0 0;max-width:70ch}
+.badge{display:inline-block;background:#e7f9ef;color:var(--verde);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.norma{display:inline-block;margin-top:12px;font-size:12px;color:var(--muted);background:var(--bg);border:1px solid var(--line);padding:5px 10px;border-radius:6px}
+
+/* ---------- Layout ---------- */
+main{max-width:920px;margin:0 auto;padding:24px 24px 80px}
+.card{background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.06);border-top:4px solid var(--cyan);padding:22px;margin-bottom:20px}
+.card h2{font-size:17px;color:var(--navy);display:flex;align-items:center;gap:10px}
+.num{background:var(--cyan);color:#fff;font-size:13px;font-weight:700;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px}
+.card > p.intro{color:var(--muted);font-size:13.5px;margin:10px 0 18px}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.full{grid-column:1/-1}
+
+/* ---------- Campos con texto de apoyo permanente ---------- */
+.field{display:flex;flex-direction:column}
+.field label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:6px}
+.field label .req{color:var(--rojo);margin-left:3px}
+.ayuda{order:3;font-size:12.5px;color:var(--muted);margin-top:6px;padding-left:10px;border-left:2px solid var(--cyan);line-height:1.5}
+.ayuda b{color:var(--text);font-weight:600}
+input,select,textarea{order:2;font-family:inherit;font-size:14px;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,194,212,.15)}
+textarea{min-height:110px;resize:vertical}
+
+/* ---------- Tabla daños no estructurales ---------- */
+.elementos{display:grid;grid-template-columns:1fr;gap:12px}
+.elem{display:grid;grid-template-columns:1fr 220px;gap:14px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.elem .nom{font-weight:600;font-size:14px;color:var(--navy)}
+.elem .desc{font-size:12.5px;color:var(--muted);margin-top:3px}
+.leyenda{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--muted)}
+.leyenda ul{margin:8px 0 0;padding-left:18px}
+.leyenda li{margin-bottom:4px}
+.leyenda b{color:var(--navy)}
+
+/* ---------- Privacidad / acciones ---------- */
+.privacidad{background:#fff;border:1px solid var(--line);border-left:4px solid var(--cyan);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--muted)}
+.consent{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px;color:var(--text)}
+.consent input{width:18px;height:18px;flex:0 0 18px;margin-top:2px}
+.acciones{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+button{font-family:Poppins,Inter,sans-serif;font-weight:600;font-size:15px;border:none;border-radius:8px;padding:13px 26px;cursor:pointer;transition:.18s}
+.btn{background:var(--cyan);color:#fff}
+.btn:hover{background:var(--cyan-dark)}
+.btn:disabled{background:#c3d0d9;cursor:not-allowed}
+.btn-sec{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.estado{font-size:13.5px;color:var(--muted)}
+.ok{color:var(--verde);font-weight:600}
+.err{color:var(--rojo);font-weight:600}
+.paso-off{opacity:.55;pointer-events:none}
+
+.logo-mark{height:30px;width:auto;background:#fff;border-radius:8px;padding:4px 7px;display:block}
+.logo-footer{height:40px;width:auto;background:#fff;border-radius:10px;padding:8px 10px;margin:0 auto 14px}
+footer{background:var(--navy);color:#93a7b8;font-size:12.5px;text-align:center;padding:26px 20px}
+.foot-contacto{margin-top:8px;font-size:13px;color:#cfe0ea}
+.foot-contacto a{color:var(--cyan);text-decoration:none;font-weight:600}
+.foot-contacto a:hover{text-decoration:underline}
+.foot-sep{color:#4b6478;margin:0 6px}
+.wa-ico{width:14px;height:14px;vertical-align:-2px;margin-right:5px;fill:currentColor}
+.foot-nota{margin-top:10px;font-size:11.5px;color:#6d8598;max-width:70ch;margin-left:auto;margin-right:auto}
+.contacto-inline a{color:var(--cyan-dark);text-decoration:none;font-weight:600}
+@media(max-width:760px){
+  .grid,.grid-3{grid-template-columns:1fr}
+  .elem{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo-mark" src="data:image/png;base64,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" alt="Logo CivilMind">
+  <div class="logo">Civil<span>Mind</span></div>
+  <div class="crumb"><a href="/">Inicio</a> › <a href="/calculadoras">Calculadoras</a> › Evaluación Post-Sismo</div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <span class="badge">Disponible ahora</span>
+    <h1>Evaluación de habitabilidad post-sismo</h1>
+    <p>Complete la información de la edificación y adjunte fotografías. La herramienta analiza los datos y la evidencia visual para clasificar la habitabilidad del inmueble y generar un informe técnico en PDF. Cada campo incluye una explicación bajo el recuadro: si no está seguro de un dato, elija la opción que mejor describa lo que observa.</p>
+    <span class="norma">Metodología: Guía Técnica IDIGER–AIS, Colombia, 4ª edición (2018)</span>
+  </div>
+</section>
+
+<main>
+  <form id="form">
+
+  <!-- 1 -->
+  <div class="card">
+    <h2><span class="num">1</span> Identificación catastral</h2>
+    <p class="intro">Datos que permiten ubicar oficialmente el predio. Si no los conoce, puede dejarlos vacíos.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="localidad_nombre">Localidad o municipio</label>
+        <input id="localidad_nombre">
+        <div class="ayuda">Nombre de la localidad (en Bogotá) o del municipio donde se ubica el inmueble. Ejemplo: <b>Suba</b>, <b>Chapinero</b>, <b>Soacha</b>.</div>
+      </div>
+      <div class="field">
+        <label for="localidad_codigo">Código de localidad</label>
+        <input id="localidad_codigo">
+        <div class="ayuda">Número oficial de la localidad. Si no lo conoce, deje el campo vacío: es opcional.</div>
+      </div>
+      <div class="field">
+        <label for="barrio_nombre">Barrio</label>
+        <input id="barrio_nombre">
+        <div class="ayuda">Nombre del barrio tal como se conoce localmente.</div>
+      </div>
+      <div class="field">
+        <label for="barrio_codigo">Código de barrio</label>
+        <input id="barrio_codigo">
+        <div class="ayuda">Código catastral del barrio. Opcional.</div>
+      </div>
+      <div class="field">
+        <label for="codigo_manzana">Código de manzana</label>
+        <input id="codigo_manzana">
+        <div class="ayuda">Aparece en el recibo del <b>impuesto predial</b> o en el certificado catastral. Opcional.</div>
+      </div>
+      <div class="field">
+        <label for="codigo_predio">Código de predio (chip)</label>
+        <input id="codigo_predio">
+        <div class="ayuda">Identificador del predio ante Catastro, también llamado <b>chip</b>. Opcional.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="card">
+    <h2><span class="num">2</span> Datos de la inspección</h2>
+    <p class="intro">Cuándo se hizo la visita y con qué alcance se pudo revisar el inmueble.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="fecha_hora_inspeccion">Fecha y hora de la inspección<span class="req">*</span></label>
+        <input type="datetime-local" id="fecha_hora_inspeccion" required>
+        <div class="ayuda">Momento en que se observó la edificación. Use la fecha real de la visita, no la del sismo.</div>
+      </div>
+      <div class="field">
+        <label for="tipo_inspeccion">Tipo de inspección<span class="req">*</span></label>
+        <select id="tipo_inspeccion" required>
+          <option value="completa_exterior_interior">Completa — se revisó el exterior y el interior</option>
+          <option value="parcial_exterior_algo_interior">Parcial — el exterior y solo algunas zonas interiores</option>
+          <option value="solo_exterior">Solo exterior — no se pudo entrar</option>
+          <option value="no_inspeccionada">No inspeccionada — no se pudo revisar</option>
+        </select>
+        <div class="ayuda">Indique hasta dónde alcanzó la revisión. <b>Completa:</b> se recorrió fachada, zonas comunes e interior de los pisos. <b>Parcial:</b> se entró solo a algunas áreas. <b>Solo exterior:</b> la edificación estaba cerrada o era peligroso entrar.</div>
+      </div>
+      <div class="field full">
+        <label for="motivo_no_inspeccionada">Motivo si no se pudo inspeccionar</label>
+        <input id="motivo_no_inspeccionada" placeholder="Ej.: riesgo de colapso, acceso cerrado, ausencia de los ocupantes">
+        <div class="ayuda">Complete solo si eligió "Solo exterior" o "No inspeccionada". Explique por qué no fue posible el ingreso.</div>
+      </div>
+      <div class="field">
+        <label for="fecha_evento">Fecha del sismo</label>
+        <input type="date" id="fecha_evento">
+        <div class="ayuda">Día en que ocurrió el sismo que motivó la revisión, si lo recuerda. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="card">
+    <h2><span class="num">3</span> Identificación de la edificación</h2>
+    <p class="intro">Ubicación, tamaño y uso del inmueble.</p>
+    <div class="grid">
+      <div class="field full">
+        <label for="direccion">Dirección<span class="req">*</span></label>
+        <input id="direccion" placeholder="Ej.: Calle 45 # 12-30, Torre B, Apto 302" required>
+        <div class="ayuda">Dirección completa, incluyendo torre, interior o número de apartamento si aplica.</div>
+      </div>
+      <div class="field">
+        <label for="nombre_edificacion">Nombre de la edificación</label>
+        <input id="nombre_edificacion" placeholder="Ej.: Conjunto Residencial El Portal">
+        <div class="ayuda">Nombre del conjunto, edificio o establecimiento, si lo tiene.</div>
+      </div>
+      <div class="field">
+        <label for="uso_edificacion">Uso de la edificación<span class="req">*</span></label>
+        <select id="uso_edificacion" required>
+          <option value="1">1 — Residencial (casas y apartamentos)</option>
+          <option value="2">2 — Comercial (locales, tiendas, centros comerciales)</option>
+          <option value="3">3 — Educacional (colegios, universidades, jardines)</option>
+          <option value="4">4 — Salud (hospitales, clínicas, consultorios)</option>
+          <option value="5">5 — Hotelero (hoteles, hostales, alojamiento)</option>
+          <option value="6">6 — Oficinas (edificios administrativos)</option>
+          <option value="7">7 — Industrial (fábricas, plantas de producción)</option>
+          <option value="8">8 — Institucional (entidades públicas, iglesias, cuarteles)</option>
+          <option value="9">9 — Bodegas (almacenamiento)</option>
+          <option value="10">10 — Parqueaderos (edificios exclusivos de estacionamiento)</option>
+          <option value="11">11 — Otros usos no listados</option>
+        </select>
+        <div class="ayuda">Actividad principal que se desarrolla en la edificación. Los códigos <b>1 a 11</b> corresponden a la clasificación de la Guía IDIGER–AIS: elija la descripción y el sistema registra el número. Si el edificio tiene varios usos (por ejemplo locales en el primer piso y apartamentos arriba), seleccione el uso predominante.</div>
+      </div>
+      <div class="field">
+        <label for="numero_pisos">Número de pisos<span class="req">*</span></label>
+        <input type="number" id="numero_pisos" min="1" max="60" value="1" required>
+        <div class="ayuda">Cantidad de niveles <b>sobre el terreno</b>, contando el primer piso. No incluya sótanos ni terrazas descubiertas.</div>
+      </div>
+      <div class="field">
+        <label for="numero_sotanos">Número de sótanos</label>
+        <input type="number" id="numero_sotanos" min="0" max="10" value="0">
+        <div class="ayuda">Niveles construidos bajo el nivel de la calle (parqueaderos o depósitos subterráneos). Escriba 0 si no hay.</div>
+      </div>
+      <div class="field">
+        <label for="ocupantes">Número aproximado de ocupantes</label>
+        <input type="number" id="ocupantes" min="0" placeholder="Ej.: 12">
+        <div class="ayuda">Cuántas personas viven o trabajan habitualmente en el inmueble. Un valor aproximado es suficiente. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="card">
+    <h2><span class="num">4</span> Descripción de la estructura</h2>
+    <p class="intro">De qué está hecha la edificación. Si no está seguro, elija la opción "Mixta" o "No sé": el análisis de las fotografías ayudará a precisarlo.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="sistema_estructural">Sistema estructural<span class="req">*</span></label>
+        <select id="sistema_estructural" required>
+          <option value="11_porticos_concreto">Pórticos de concreto — columnas y vigas de concreto</option>
+          <option value="12_muros_estructurales">Muros estructurales — paredes de concreto que sostienen</option>
+          <option value="13_dual_combinado">Dual o combinado — pórticos y muros de concreto juntos</option>
+          <option value="14_prefabricados">Prefabricados — piezas de concreto hechas en fábrica</option>
+          <option value="21_mamposteria_confinada">Mampostería confinada — ladrillo con columnetas de concreto</option>
+          <option value="22_mamposteria_reforzada">Mampostería reforzada — ladrillo con varillas dentro de los muros</option>
+          <option value="23_mamposteria_no_reforzada">Mampostería no reforzada — ladrillo o adobe sin refuerzo</option>
+          <option value="31_porticos_arriostrados">Acero con diagonales — estructura metálica arriostrada</option>
+          <option value="32_porticos_no_arriostrados">Acero sin diagonales — estructura metálica en pórticos</option>
+          <option value="33_porticos_celosia">Acero en celosía o cercha — perfiles armados en triángulos</option>
+          <option value="41_madera_porticos_paneles">Madera — pórticos y paneles de madera estructural</option>
+          <option value="42_madera_porticos_mixto">Madera mixta — madera combinada con muros de ladrillo o concreto</option>
+          <option value="50_tapia_adobe_bahareque">Tapia pisada, adobe o bahareque — tierra o barro con estructura de caña o madera</option>
+          <option value="60_mixta">Mixta — combinación de varios sistemas o no está seguro</option>
+          <option value="70_precario">Precario — madera, latas, bahareque o materiales de desecho</option>
+        </select>
+        <div class="ayuda">Es lo que sostiene el edificio. <b>Pórticos de concreto:</b> se ven columnas y vigas grises de concreto. <b>Mampostería confinada:</b> muros de ladrillo enmarcados por columnetas delgadas de concreto, típico de vivienda de 1 a 3 pisos. <b>No reforzada:</b> muros de ladrillo o adobe sin ningún elemento de concreto, común en construcciones antiguas. Si duda, elija <b>Mixta</b>.</div>
+      </div>
+      <div class="field">
+        <label for="tipo_entrepiso">Tipo de entrepiso o cubierta</label>
+        <select id="tipo_entrepiso">
+          <option value="Placa de concreto">Placa de concreto</option>
+          <option value="Estructura metalica con teja">Estructura metálica con teja</option>
+          <option value="Vigas de madera">Vigas de madera</option>
+          <option value="Teja liviana sobre correas">Teja liviana sobre correas</option>
+          <option value="No identificado">No sé</option>
+        </select>
+        <div class="ayuda">Material del piso superior o del techo: placa de concreto, teja sobre estructura metálica, madera, etc.</div>
+      </div>
+      <div class="field">
+        <label for="periodo_construccion">Año o período de construcción</label>
+        <input id="periodo_construccion" placeholder="Ej.: 1985 o 1980-1990">
+        <div class="ayuda">Año aproximado en que se construyó. Es un dato clave: las edificaciones anteriores a <b>1984</b> se construyeron sin norma sismo resistente en Colombia.</div>
+      </div>
+      <div class="field">
+        <label for="irregularidades">Irregularidades visibles</label>
+        <select id="irregularidades">
+          <option value="ninguna">Ninguna aparente</option>
+          <option value="piso_debil">Primer piso abierto o con pocos muros</option>
+          <option value="planta_irregular">Forma irregular en planta (L, T, U)</option>
+          <option value="altura_irregular">Pisos de alturas muy distintas o escalonados</option>
+          <option value="varias">Varias de las anteriores</option>
+        </select>
+        <div class="ayuda">Condiciones geométricas que aumentan el riesgo. El caso más frecuente es el <b>primer piso abierto</b> (garajes o locales sin muros) sosteniendo pisos con muchos muros arriba. Se anexa a los comentarios del informe.</div>
+      </div>
+      <div class="field">
+        <label for="ampliaciones">¿Tiene ampliaciones o modificaciones?</label>
+        <select id="ampliaciones">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+          <option value="no_sabe">No sé</option>
+        </select>
+        <div class="ayuda">Pisos añadidos después de construida, muros demolidos o cerramientos nuevos que no estaban en el diseño original. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="card">
+    <h2><span class="num">5</span> Estado general observado</h2>
+    <p class="intro">Condiciones globales del inmueble después del sismo. Son las tres preguntas de mayor peso en la clasificación de habitabilidad.</p>
+    <div class="grid-3">
+      <div class="field">
+        <label for="colapso">¿Hay colapso?<span class="req">*</span></label>
+        <select id="colapso" required>
+          <option value="no">No — la edificación está en pie</option>
+          <option value="parcial">Parcial — cayó una parte</option>
+          <option value="total">Total — la edificación se derrumbó</option>
+        </select>
+        <div class="ayuda">Colapso es el derrumbe de una parte o del total de la construcción: un piso que se vino abajo, una esquina caída, un techo que se hundió. No confunda con la caída de acabados o tejas.</div>
+      </div>
+      <div class="field">
+        <label for="inclinacion_desviacion">¿Se ve inclinada o desplomada?<span class="req">*</span></label>
+        <select id="inclinacion_desviacion" required>
+          <option value="no">No</option>
+          <option value="si">Sí, se ve inclinada</option>
+          <option value="no_determinado">No se pudo determinar</option>
+        </select>
+        <div class="ayuda">Se percibe cuando una pared se ve "vencida", las puertas ya no cierran o una canica rueda sola por el piso. Es una señal grave.</div>
+      </div>
+      <div class="field">
+        <label for="falla_asentamiento_cimentacion">¿Falla o hundimiento en la base?<span class="req">*</span></label>
+        <select id="falla_asentamiento_cimentacion" required>
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+          <option value="no_determinado">No se pudo determinar</option>
+        </select>
+        <div class="ayuda">La edificación se hundió o se movió respecto al terreno: escalones nuevos en el piso, grietas en la base de los muros, andenes separados de la fachada.</div>
+      </div>
+    </div>
+    <div class="privacidad" style="margin-top:18px;border-left-color:var(--rojo)">
+      <b style="color:var(--rojo)">Antes de continuar:</b> si observa elementos a punto de caer, olor a gas, muros a punto de volcarse o escaleras dañadas, <b>evacúe el inmueble y comuníquese con la línea de emergencias (123)</b> antes de terminar de diligenciar este formulario.
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="card">
+    <h2><span class="num">6</span> Problemas geotécnicos</h2>
+    <p class="intro">Comportamiento del terreno donde se apoya la edificación.</p>
+    <div class="grid-3">
+      <div class="field">
+        <label for="falla_talud">Falla de talud o deslizamiento<span class="req">*</span></label>
+        <select id="falla_talud" required>
+          <option value="no">No se observa</option>
+          <option value="puntual">Puntual — en un sector localizado</option>
+          <option value="general">General — en toda la ladera o el muro</option>
+        </select>
+        <div class="ayuda">Movimiento de tierra en una ladera o muro de contención próximo a la edificación. <b>Puntual:</b> un tramo pequeño. <b>General:</b> compromete toda la ladera.</div>
+      </div>
+      <div class="field">
+        <label for="asentamiento_licuacion">Asentamiento o licuación<span class="req">*</span></label>
+        <select id="asentamiento_licuacion" required>
+          <option value="no">No se observa</option>
+          <option value="puntual">Puntual — en un sector localizado</option>
+          <option value="general">General — en toda el área</option>
+        </select>
+        <div class="ayuda">El piso o el andén se hundió respecto a la construcción, o salió agua con arena y barro por el suelo durante el sismo (licuación, típica de suelos arenosos saturados).</div>
+      </div>
+      <div class="field">
+        <label for="grietas_terreno">Grietas en el terreno<span class="req">*</span></label>
+        <select id="grietas_terreno" required>
+          <option value="no">No se observan</option>
+          <option value="incipientes">Incipientes — apenas se notan</option>
+          <option value="generalizadas">Generalizadas — muchas y amplias</option>
+        </select>
+        <div class="ayuda">Aberturas en el suelo, patios, jardines o vías cercanas. <b>Incipientes:</b> finas y aisladas. <b>Generalizadas:</b> varias grietas anchas que recorren el terreno.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="card">
+    <h2><span class="num">7</span> Daños no estructurales</h2>
+    <p class="intro">Elementos que no sostienen el edificio pero pueden causar heridas al caer. Indique el nivel de daño de cada uno.</p>
+    <div class="leyenda">
+      <b>Cómo elegir el nivel de daño:</b>
+      <ul>
+        <li><b>Ninguno:</b> el elemento está intacto, o la edificación no tiene ese elemento.</li>
+        <li><b>Leve:</b> fisuras muy finas o caída de acabados, sin riesgo de desprendimiento.</li>
+        <li><b>Moderado:</b> grietas visibles, piezas sueltas o desalineadas, pero el elemento se mantiene en su lugar.</li>
+        <li><b>Fuerte:</b> el elemento está roto o desplazado y hay riesgo de que caiga.</li>
+        <li><b>Severo:</b> el elemento ya se desprendió o está a punto de caer en cualquier momento.</li>
+      </ul>
+    </div>
+    <div class="elementos" id="elementos"></div>
+  </div>
+
+  <!-- 8 -->
+  <div class="card">
+    <h2><span class="num">8</span> Daños estructurales</h2>
+    <p class="intro">Daños en los elementos que sostienen la edificación: columnas, vigas, muros portantes, placas, cimentación y escaleras.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="dano_columnas">Columnas</label>
+        <select id="dano_columnas" class="nivel"></select>
+        <div class="ayuda">Elementos verticales de concreto o acero. Busque grietas <b>diagonales o en X</b>, concreto reventado o varillas de acero expuestas: es el daño más crítico.</div>
+      </div>
+      <div class="field">
+        <label for="dano_vigas">Vigas</label>
+        <select id="dano_vigas" class="nivel"></select>
+        <div class="ayuda">Elementos horizontales que unen columnas. Observe grietas cerca de los apoyos o en la mitad del vano.</div>
+      </div>
+      <div class="field">
+        <label for="dano_muros_portantes">Muros portantes</label>
+        <select id="dano_muros_portantes" class="nivel"></select>
+        <div class="ayuda">Muros que sostienen los pisos superiores (no se pueden demoler). Las grietas en X o escalonadas siguiendo las pegas del ladrillo son señal de daño importante.</div>
+      </div>
+      <div class="field">
+        <label for="dano_placas">Placas o entrepisos</label>
+        <select id="dano_placas" class="nivel"></select>
+        <div class="ayuda">Pisos y techos de concreto. Revise fisuras en la cara inferior, hundimientos o desprendimiento del recubrimiento.</div>
+      </div>
+      <div class="field">
+        <label for="dano_cimentacion">Cimentación</label>
+        <select id="dano_cimentacion" class="nivel"></select>
+        <div class="ayuda">Base de la edificación. Se evalúa indirectamente: hundimientos, grietas en la base de los muros o desniveles en el primer piso.</div>
+      </div>
+      <div class="field">
+        <label for="dano_escaleras_estructural">Escaleras</label>
+        <select id="dano_escaleras_estructural" class="nivel"></select>
+        <div class="ayuda">Vía de evacuación. Cualquier daño aquí es prioritario porque puede impedir la salida de los ocupantes.</div>
+      </div>
+      <div class="field">
+        <label for="porcentaje_elementos_afectados_piso_critico">Porcentaje de elementos afectados en el piso más dañado<span class="req">*</span></label>
+        <input type="number" id="porcentaje_elementos_afectados_piso_critico" min="0" max="100" value="0" required>
+        <div class="ayuda">De cada 100 columnas o muros portantes del piso más afectado, cuántos presentan daño. Estime a ojo: si de 10 columnas 2 están agrietadas, escriba <b>20</b>. Si no hay daño, deje 0.</div>
+      </div>
+      <div class="field">
+        <label for="ancho_grietas">Ancho máximo de grietas</label>
+        <select id="ancho_grietas">
+          <option value="sin_grietas">Sin grietas</option>
+          <option value="menor_1mm">Menor a 1 mm — casi no cabe la uña</option>
+          <option value="1_3mm">Entre 1 y 3 mm — cabe una tarjeta</option>
+          <option value="3_10mm">Entre 3 y 10 mm — cabe un lápiz</option>
+          <option value="mayor_10mm">Mayor a 10 mm — cabe un dedo</option>
+        </select>
+        <div class="ayuda">Mida la grieta más ancha que encuentre en columnas, vigas o muros portantes. Las referencias cotidianas (uña, tarjeta, lápiz, dedo) sirven perfectamente si no tiene un medidor. Se anexa a los comentarios del informe.</div>
+      </div>
+      <div class="field full">
+        <label for="nivel_dano_predominante">Nivel de daño estructural predominante<span class="req">*</span></label>
+        <select id="nivel_dano_predominante" required>
+          <option value="ninguno">Ninguno</option>
+          <option value="leve">Leve</option>
+          <option value="moderado">Moderado</option>
+          <option value="fuerte">Fuerte</option>
+          <option value="severo">Severo</option>
+        </select>
+        <div class="ayuda">Se calcula automáticamente como el nivel más alto que haya marcado en los seis elementos anteriores, pero puede ajustarlo si su criterio en sitio es distinto.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="card">
+    <h2><span class="num">9</span> Problemas del entorno</h2>
+    <p class="intro">Riesgos que provienen de fuera del inmueble.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="afectacion_entorno">Afectación del entorno<span class="req">*</span></label>
+        <select id="afectacion_entorno" required>
+          <option value="no">No hay afectación</option>
+          <option value="puntual">Puntual — un punto o un vecino</option>
+          <option value="general">General — toda la cuadra o el sector</option>
+        </select>
+        <div class="ayuda">Daños alrededor del inmueble: escombros en la vía, postes o árboles caídos, andenes levantados, redes de servicios rotas.</div>
+      </div>
+      <div class="field">
+        <label for="riesgo_vecinas">Riesgo por edificaciones vecinas<span class="req">*</span></label>
+        <select id="riesgo_vecinas" required>
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+          <option value="no_determinado">No se pudo determinar</option>
+        </select>
+        <div class="ayuda">Una construcción contigua está muy dañada o inclinada y podría caer sobre este inmueble.</div>
+      </div>
+      <div class="field">
+        <label for="redes_servicios">Daño en redes de servicios</label>
+        <select id="redes_servicios">
+          <option value="no">Ninguno</option>
+          <option value="gas">Fuga de gas</option>
+          <option value="agua">Rotura de agua</option>
+          <option value="electrico">Falla eléctrica o cables sueltos</option>
+          <option value="varios">Varios</option>
+        </select>
+        <div class="ayuda">Si detecta olor a gas, cierre la llave, no accione interruptores y evacúe de inmediato. Se anexa a los comentarios del informe.</div>
+      </div>
+      <div class="field">
+        <label for="via_acceso">Acceso o vía obstruida</label>
+        <select id="via_acceso">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+        </select>
+        <div class="ayuda">Escombros o materiales que impiden entrar o salir del inmueble. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="card">
+    <h2><span class="num">10</span> Condiciones preexistentes</h2>
+    <p class="intro">Estado del inmueble antes del sismo. Permite distinguir el daño nuevo del que ya existía.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="calidad_construccion">Calidad de la construcción<span class="req">*</span></label>
+        <select id="calidad_construccion" required>
+          <option value="buena">Buena</option>
+          <option value="regular">Regular</option>
+          <option value="mala">Mala</option>
+        </select>
+        <div class="ayuda"><b>Buena:</b> materiales y acabados en buen estado, sin humedades ni deterioro. <b>Regular:</b> deterioro moderado o mantenimiento atrasado. <b>Mala:</b> humedades permanentes, acero expuesto y oxidado, concreto disgregado, construcción informal o por etapas sin diseño.</div>
+      </div>
+      <div class="field">
+        <label for="tipo_suelo">Tipo de suelo</label>
+        <select id="tipo_suelo">
+          <option value="">No sé</option>
+          <option value="Roca o suelo firme">Roca o suelo firme</option>
+          <option value="Suelo intermedio">Suelo intermedio</option>
+          <option value="Suelo blando o arcilloso">Suelo blando o arcilloso</option>
+          <option value="Relleno o antiguo humedal">Relleno o zona de antiguo humedal</option>
+        </select>
+        <div class="ayuda">Terreno de apoyo. En Bogotá gran parte de la ciudad se asienta sobre <b>suelo blando</b>, que amplifica el movimiento del sismo. Si no lo sabe, deje "No sé".</div>
+      </div>
+      <div class="field">
+        <label for="tipo_cimentacion">Tipo de cimentación</label>
+        <select id="tipo_cimentacion">
+          <option value="">No sé</option>
+          <option value="Zapatas">Zapatas</option>
+          <option value="Losa de cimentacion">Losa de cimentación</option>
+          <option value="Pilotes o caissons">Pilotes o caissons</option>
+          <option value="Cimiento corrido en concreto ciclopeo">Cimiento corrido en concreto ciclópeo</option>
+        </select>
+        <div class="ayuda">Cómo se apoya la edificación en el terreno. Es un dato de los planos originales; si no los tiene, deje "No sé".</div>
+      </div>
+      <div class="field">
+        <label for="indicios_danos_previos">Indicios de daños previos</label>
+        <input id="indicios_danos_previos" placeholder="Ej.: grietas antiguas en la fachada, humedad en el sótano">
+        <div class="ayuda">Grietas, humedades o hundimientos que ya existían antes del sismo. Ayuda a no atribuir al sismo un daño anterior. Si no había, deje el campo vacío.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="card">
+    <h2><span class="num">11</span> Efecto sobre los ocupantes</h2>
+    <p class="intro">Consecuencias del sismo sobre las personas que estaban en el inmueble.</p>
+    <div class="grid">
+      <div class="field full">
+        <label for="hubo_muertos_heridos">¿Hubo personas fallecidas o heridas?<span class="req">*</span></label>
+        <select id="hubo_muertos_heridos" required>
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+          <option value="no_se_sabe">No se sabe</option>
+        </select>
+        <div class="ayuda">Se refiere únicamente a lesiones ocurridas dentro de este inmueble o por causa de su daño. Si hubo víctimas, informe también a los organismos de emergencia.</div>
+      </div>
+      <div class="field">
+        <label for="numero_fallecidos">Número de fallecidos</label>
+        <input type="number" id="numero_fallecidos" min="0" value="0">
+        <div class="ayuda">Escriba 0 si no hubo.</div>
+      </div>
+      <div class="field">
+        <label for="numero_heridos">Número de heridos</label>
+        <input type="number" id="numero_heridos" min="0" value="0">
+        <div class="ayuda">Personas que requirieron atención médica. Escriba 0 si no hubo.</div>
+      </div>
+      <div class="field">
+        <label for="numero_damnificados">Número de damnificados</label>
+        <input type="number" id="numero_damnificados" min="0" value="0">
+        <div class="ayuda">Personas que tuvieron que salir del inmueble y no pueden regresar por ahora.</div>
+      </div>
+      <div class="field">
+        <label for="evacuacion">¿Se evacuó la edificación?</label>
+        <select id="evacuacion">
+          <option value="no">No</option>
+          <option value="parcial">Parcialmente</option>
+          <option value="total">Totalmente</option>
+        </select>
+        <div class="ayuda">Indique si los ocupantes salieron del inmueble y si aún permanecen fuera. Se anexa a los comentarios del informe.</div>
+      </div>
+      <div class="field">
+        <label for="requiere_albergue">¿Se requiere albergue temporal?</label>
+        <select id="requiere_albergue">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+        </select>
+        <div class="ayuda">Marque "Sí" si las personas no tienen un lugar seguro donde permanecer mientras se resuelve la situación del inmueble. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 -->
+  <div class="card">
+    <h2><span class="num">12</span> Persona de contacto</h2>
+    <p class="intro">Necesario para entregar el informe y aclarar dudas sobre la inspección.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="nombres_apellidos">Nombres y apellidos<span class="req">*</span></label>
+        <input id="nombres_apellidos" required>
+        <div class="ayuda">Persona responsable de la información suministrada.</div>
+      </div>
+      <div class="field">
+        <label for="telefono">Teléfono<span class="req">*</span></label>
+        <input id="telefono" placeholder="Ej.: 300 123 4567" required>
+        <div class="ayuda">Número donde se le pueda contactar el mismo día.</div>
+      </div>
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email">
+        <div class="ayuda">Se usa únicamente para enviarle el informe en PDF.</div>
+      </div>
+      <div class="field">
+        <label for="contacto_relacion">Relación con el inmueble</label>
+        <select id="contacto_relacion">
+          <option value="propietario">Propietario</option>
+          <option value="arrendatario">Arrendatario</option>
+          <option value="administrador">Administrador</option>
+          <option value="inspector">Inspector o profesional</option>
+          <option value="otro">Otro</option>
+        </select>
+        <div class="ayuda">Vínculo de la persona de contacto con la edificación evaluada. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 -->
+  <div class="card">
+    <h2><span class="num">13</span> Descripción en sus propias palabras</h2>
+    <div class="grid">
+      <div class="field full">
+        <label for="autor">¿Quién escribe el relato?<span class="req">*</span></label>
+        <select id="autor" required>
+          <option value="propietario">El propietario o residente</option>
+          <option value="ingeniero_apoyo">Un ingeniero de apoyo</option>
+          <option value="otro">Otra persona</option>
+        </select>
+        <div class="ayuda">Permite saber con qué nivel de detalle técnico interpretar la descripción siguiente.</div>
+      </div>
+      <div class="field full">
+        <label for="descripcion_libre">Relato de lo observado<span class="req">*</span></label>
+        <textarea id="descripcion_libre" maxlength="2000" required placeholder="Ej.: Durante el sismo se sintió un movimiento fuerte. Después aparecieron grietas en la pared de la sala, junto a la ventana, y se cayó parte del estuco del techo del baño. La puerta del cuarto principal ya no cierra bien."></textarea>
+        <div class="ayuda">Escriba con sus propias palabras qué pasó y qué observa ahora: <b>dónde</b> están los daños, <b>cuándo</b> aparecieron y si han <b>aumentado</b> con el tiempo. Este relato se compara con las fotografías y es una de las partes más valiosas del informe. No necesita lenguaje técnico. Máximo 2000 caracteres.</div>
+      </div>
+      <div class="field full">
+        <label for="comentarios">Comentarios adicionales</label>
+        <textarea id="comentarios" style="min-height:80px"></textarea>
+        <div class="ayuda">Cualquier información que considere útil: reparaciones recientes, sismos anteriores, reportes previos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14 -->
+  <div class="card">
+    <h2><span class="num">14</span> Responsable de la inspección</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="nombre_lider">Nombre del líder de inspección</label>
+        <input id="nombre_lider">
+        <div class="ayuda">Quien realizó la visita. Si el propietario diligencia el formulario, puede escribir su propio nombre.</div>
+      </div>
+      <div class="field">
+        <label for="numero_evaluadores">Número de evaluadores</label>
+        <input type="number" id="numero_evaluadores" min="1" placeholder="Ej.: 2">
+        <div class="ayuda">Cuántas personas participaron en la inspección. Si fue una sola, escriba 1.</div>
+      </div>
+      <div class="field">
+        <label for="inspector_matricula">Matrícula profesional</label>
+        <input id="inspector_matricula">
+        <div class="ayuda">Número de matrícula del COPNIA, si quien inspecciona es ingeniero o arquitecto. Opcional. Se anexa a los comentarios del informe.</div>
+      </div>
+      <div class="field">
+        <label for="inspector_entidad">Entidad</label>
+        <input id="inspector_entidad">
+        <div class="ayuda">Empresa o entidad a la que pertenece el inspector. Opcional. Se anexa a los comentarios del informe.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacidad -->
+  <div class="card">
+    <h2><span class="num">15</span> Tratamiento de datos</h2>
+    <div class="privacidad">
+      La información y las imágenes que suministra se usan <b>únicamente</b> para generar el informe técnico de habitabilidad de este inmueble. Los archivos se almacenan de forma privada y no se comparten con terceros ni se emplean con fines comerciales o publicitarios. Usted puede solicitar la eliminación de sus datos en cualquier momento a través de los canales de contacto de CivilMind: <span class="contacto-inline"><a href="mailto:civilmind.ucros@gmail.com">civilmind.ucros@gmail.com</a></span> o por <span class="contacto-inline"><a href="https://wa.me/573332635558" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.116-.198.058-.371-.014-.52-.072-.148-.66-1.59-.904-2.178-.24-.579-.486-.5-.668-.51-.174-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/></svg>WhatsApp 333 263 5558</a></span>. El informe generado es una <b>evaluación preliminar de apoyo</b> y no reemplaza el dictamen de un profesional en sitio ni el de las autoridades competentes.
+      <div class="consent">
+        <input type="checkbox" id="consent" required>
+        <label for="consent" style="font-weight:500;margin:0">Autorizo el tratamiento de los datos e imágenes suministrados con la finalidad descrita.<span class="req">*</span></label>
+      </div>
+    </div>
+    <div class="acciones" style="margin-top:18px">
+      <button type="submit" class="btn" id="btnCaso">Crear caso y continuar</button>
+      <span class="estado" id="estadoCaso"></span>
+    </div>
+  </div>
+  </form>
+
+  <!-- Evidencia -->
+  <div class="card paso-off" id="pasoEvidencia">
+    <h2><span class="num">16</span> Fotografías y videos</h2>
+    <p class="intro">La evidencia visual es la base del análisis automático. Tome las fotos con buena luz y desde varias distancias.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="fotos">Fotografías<span class="req">*</span></label>
+        <input type="file" id="fotos" accept="image/*" multiple>
+        <div class="ayuda">Incluya: <b>1)</b> la fachada completa, <b>2)</b> cada daño de lejos para ubicarlo en el espacio, y <b>3)</b> el mismo daño de cerca. Si es posible, ponga un objeto de referencia junto a la grieta (una moneda o un lápiz) para dimensionarla.</div>
+      </div>
+      <div class="field">
+        <label for="videos">Videos</label>
+        <input type="file" id="videos" accept="video/*" multiple>
+        <div class="ayuda">Opcional. Un recorrido lento de 30 a 60 segundos por las zonas afectadas, narrando lo que ve, aporta mucho contexto.</div>
+      </div>
+    </div>
+    <div class="acciones" style="margin-top:18px">
+      <button type="button" class="btn" id="btnEvidencia">Subir evidencia</button>
+      <span class="estado" id="estadoEvidencia"></span>
+    </div>
+  </div>
+
+  <!-- Informe -->
+  <div class="card paso-off" id="pasoInforme">
+    <h2><span class="num">17</span> Informe técnico</h2>
+    <p class="intro">Se analizan los datos del formulario junto con la evidencia visual y se genera el informe en PDF con la clasificación de habitabilidad.</p>
+    <div class="acciones">
+      <button type="button" class="btn" id="btnInforme">Generar informe</button>
+      <a id="linkInforme" class="estado" href="#" target="_blank" rel="noopener" style="display:none">Abrir informe en PDF</a>
+      <span class="estado" id="estadoInforme"></span>
+    </div>
+    <div class="ayuda" style="margin-top:14px">La generación puede tardar entre <b>30 y 90 segundos</b> porque se procesan las imágenes y se redacta el informe. No cierre esta página mientras avanza. Si el informe no se genera o tiene dudas sobre el resultado, escríbanos a <span class="contacto-inline"><a href="mailto:civilmind.ucros@gmail.com">civilmind.ucros@gmail.com</a></span> o por <span class="contacto-inline"><a href="https://wa.me/573332635558" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.116-.198.058-.371-.014-.52-.072-.148-.66-1.59-.904-2.178-.24-.579-.486-.5-.668-.51-.174-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/></svg>WhatsApp 333 263 5558</a></span>.</div>
+  </div>
+</main>
+
+<footer>
+  <img class="logo-footer" src="data:image/png;base64,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" alt="CivilMind">
+  <div>CivilMind &middot; Evaluación Post-Sismo &middot; Metodología Guía Técnica IDIGER&ndash;AIS 2018</div>
+  <div class="foot-contacto">
+    <a href="https://wa.me/573332635558" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.347-.347.52-.52.174-.174.232-.298.347-.497.116-.198.058-.371-.014-.52-.072-.148-.66-1.59-.904-2.178-.24-.579-.486-.5-.668-.51-.174-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/></svg>WhatsApp 333 263 5558</a><span class="foot-sep">|</span>
+    <a href="mailto:civilmind.ucros@gmail.com">civilmind.ucros@gmail.com</a><span class="foot-sep">|</span>
+    <a href="https://civilmind-u.com" target="_blank" rel="noopener">civilmind-u.com</a>
+  </div>
+  <div class="foot-nota">Evaluación preliminar de apoyo. No sustituye el dictamen de un profesional en sitio ni el de las autoridades competentes.</div>
+</footer>
+
+<script>
+/* =========================================================================
+   CivilMind - Evaluacion Post-Sismo (v4)
+   Payload alineado clave por clave con index_v3.html (version validada
+   contra el backend en produccion).
+   ========================================================================= */
+
+const API = "https://civilmind-post-sismo-api.onrender.com";
+
+/* Si tu modelo Pydantic acepta un diccionario libre en
+   danos_estructurales.variables_evaluadas, cambia esta bandera a true
+   para enviar el detalle por elemento (columnas, vigas, etc.).
+   Verificado el 2026-08-19 contra el backend en produccion: variables_evaluadas
+   es obligatorio y acepta un diccionario libre, por eso va en true. */
+const ENVIAR_VARIABLES_EVALUADAS = true;
+
+/* ---- Niveles de dano: mismos valores del enum del backend ---- */
+const NIVELES = [
+  ["ninguno", "Ninguno / no aplica"],
+  ["leve", "Leve"],
+  ["moderado", "Moderado"],
+  ["fuerte", "Fuerte"],
+  ["severo", "Severo"]
+];
+const ORDEN_NIVEL = ["ninguno", "leve", "moderado", "fuerte", "severo"];
+
+function opcionesNivel(sel) {
+  sel.innerHTML = NIVELES.map(([v, t]) => `<option value="${v}">${t}</option>`).join("");
+}
+
+/* ---- Seccion 7: los 11 elementos con las claves exactas del backend ---- */
+const ELEMENTOS = [
+  ["muros_fachada_antepechos", "Muros de fachada y antepechos", "Paredes exteriores y muretes bajo las ventanas. Su caída afecta a peatones y vecinos."],
+  ["vidrios_exteriores", "Vidrios exteriores", "Vidrios rotos, fisurados o marcos desprendidos en fachada."],
+  ["acabados_exteriores", "Acabados exteriores", "Enchapes, estuco, pintura o revestimientos de la fachada."],
+  ["muros_divisorios", "Muros divisorios", "Paredes internas que separan ambientes y no sostienen la estructura."],
+  ["balcones", "Balcones y voladizos", "Losas que sobresalen de la fachada; su falla es de alto riesgo."],
+  ["cielos_rasos_luminarias", "Cielos rasos y luminarias", "Techos falsos en drywall, madera o láminas, y lámparas colgantes."],
+  ["cubierta", "Cubierta", "Tejas, canales o láminas del techo."],
+  ["escaleras", "Escaleras y barandas", "Peldaños, pasamanos y barandas de circulación."],
+  ["instalaciones", "Instalaciones (agua, gas, electricidad)", "Tuberías, medidores, tableros y cableado."],
+  ["ductos_ventilacion", "Ductos de ventilación", "Chimeneas, shuts de basura y ductos de aire."],
+  ["tanques_elevados", "Tanques elevados y equipos", "Tanques de agua en el techo, máquinas o equipos que puedan volcarse."]
+];
+
+const cont = document.getElementById("elementos");
+cont.innerHTML = ELEMENTOS.map(([k, nom, desc]) => `
+  <div class="elem">
+    <div><div class="nom">${nom}</div><div class="desc">${desc}</div></div>
+    <select class="nivel" id="elem_${k}"></select>
+  </div>`).join("");
+
+document.querySelectorAll("select.nivel").forEach(opcionesNivel);
+
+/* ---- Utilidades ---- */
+const v = id => document.getElementById(id).value;
+const opt = id => { const x = v(id).trim(); return x === "" ? undefined : x; };
+const int0 = id => parseInt(v(id)) || 0;
+
+/* Elementos estructurales de la seccion 8 */
+const ESTRUCTURALES = [
+  ["columnas", "dano_columnas"],
+  ["vigas", "dano_vigas"],
+  ["muros_portantes", "dano_muros_portantes"],
+  ["placas_entrepisos", "dano_placas"],
+  ["cimentacion", "dano_cimentacion"],
+  ["escaleras", "dano_escaleras_estructural"]
+];
+
+/* Sincroniza automaticamente el nivel predominante con el maximo marcado */
+function actualizarPredominante() {
+  let max = 0;
+  ESTRUCTURALES.forEach(([, id]) => {
+    const i = ORDEN_NIVEL.indexOf(v(id));
+    if (i > max) max = i;
+  });
+  document.getElementById("nivel_dano_predominante").value = ORDEN_NIVEL[max];
+}
+ESTRUCTURALES.forEach(([, id]) =>
+  document.getElementById(id).addEventListener("change", actualizarPredominante)
+);
+actualizarPredominante();
+
+/* Los campos que el backend no modela se consolidan aqui, para no perder
+   informacion util del formulario. Todo se envia en comentarios_adicionales. */
+function comentariosConsolidados() {
+  const etiqueta = (id, titulo) => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const texto = el.tagName === "SELECT" ? el.options[el.selectedIndex].text : el.value.trim();
+    if (!texto) return null;
+    return `${titulo}: ${texto}`;
+  };
+  const extras = [
+    etiqueta("fecha_evento", "Fecha del sismo"),
+    etiqueta("ocupantes", "Ocupantes aproximados"),
+    etiqueta("irregularidades", "Irregularidades visibles"),
+    etiqueta("ampliaciones", "Ampliaciones o modificaciones"),
+    etiqueta("ancho_grietas", "Ancho maximo de grietas"),
+    etiqueta("redes_servicios", "Redes de servicios"),
+    etiqueta("via_acceso", "Via de acceso obstruida"),
+    etiqueta("evacuacion", "Evacuacion"),
+    etiqueta("requiere_albergue", "Requiere albergue temporal"),
+    etiqueta("contacto_relacion", "Relacion del contacto con el inmueble"),
+    etiqueta("inspector_entidad", "Entidad del inspector")
+  ].filter(Boolean);
+
+  ESTRUCTURALES.forEach(([clave, id]) => {
+    const nivel = v(id);
+    if (nivel !== "ninguno") extras.push(`Dano estructural en ${clave.replace(/_/g, " ")}: ${nivel}`);
+  });
+
+  const libres = v("comentarios").trim();
+  const bloque = extras.length ? "Datos complementarios del formulario web:\n- " + extras.join("\n- ") : "";
+  const texto = [libres, bloque].filter(Boolean).join("\n\n");
+  return texto === "" ? undefined : texto;
+}
+
+/* ---- Payload: estructura identica a la validada en produccion ---- */
+function payload() {
+  const dnes = {};
+  ELEMENTOS.forEach(([k]) => {
+    dnes[k] = { nivel_dano: v("elem_" + k), fotos_urls: [] };
+  });
+
+  const variables = {};
+  if (ENVIAR_VARIABLES_EVALUADAS) {
+    ESTRUCTURALES.forEach(([clave, id]) => { variables[clave] = v(id); });
+    const anchoSel = document.getElementById("ancho_grietas");
+    if (anchoSel && anchoSel.value) variables.ancho_maximo_grietas = anchoSel.value;
+  }
+
+  return {
+    identificacion_catastral: {
+      localidad_codigo: opt("localidad_codigo"),
+      localidad_nombre: opt("localidad_nombre"),
+      barrio_codigo: opt("barrio_codigo"),
+      barrio_nombre: opt("barrio_nombre"),
+      codigo_manzana: opt("codigo_manzana"),
+      codigo_predio: opt("codigo_predio")
+    },
+    inspeccion_info: {
+      tipo_inspeccion: v("tipo_inspeccion"),
+      motivo_no_inspeccionada: opt("motivo_no_inspeccionada")
+    },
+    identificacion_edificacion: {
+      direccion: v("direccion"),
+      nombre_edificacion: opt("nombre_edificacion"),
+      uso_edificacion: parseInt(v("uso_edificacion")),
+      numero_pisos: parseInt(v("numero_pisos")),
+      numero_sotanos: int0("numero_sotanos")
+    },
+    descripcion_estructura: {
+      sistema_estructural: v("sistema_estructural"),
+      tipo_entrepiso: opt("tipo_entrepiso"),
+      periodo_construccion: opt("periodo_construccion"),
+      fotos_urls: []
+    },
+    estado_general: {
+      colapso: v("colapso"),
+      inclinacion_desviacion: v("inclinacion_desviacion"),
+      falla_asentamiento_cimentacion: v("falla_asentamiento_cimentacion"),
+      fotos_urls: []
+    },
+    problemas_geotecnicos: {
+      falla_talud: v("falla_talud"),
+      asentamiento_licuacion: v("asentamiento_licuacion"),
+      grietas_terreno: v("grietas_terreno"),
+      fotos_urls: []
+    },
+    danos_no_estructurales: dnes,
+    danos_estructurales: {
+      nivel_dano_predominante: v("nivel_dano_predominante"),
+      porcentaje_elementos_afectados_piso_critico: parseFloat(v("porcentaje_elementos_afectados_piso_critico")) || 0,
+      variables_evaluadas: variables,
+      fotos_urls: []
+    },
+    problemas_entorno: {
+      afectacion_entorno: v("afectacion_entorno"),
+      riesgo_vecinas: v("riesgo_vecinas"),
+      fotos_urls: []
+    },
+    condiciones_preexistentes: {
+      calidad_construccion: v("calidad_construccion"),
+      tipo_suelo: opt("tipo_suelo"),
+      tipo_cimentacion: opt("tipo_cimentacion"),
+      indicios_danos_previos: opt("indicios_danos_previos")
+    },
+    efecto_ocupantes: {
+      hubo_muertos_heridos: v("hubo_muertos_heridos"),
+      numero_fallecidos: int0("numero_fallecidos"),
+      numero_heridos: int0("numero_heridos"),
+      numero_damnificados: int0("numero_damnificados")
+    },
+    persona_contacto: {
+      nombres_apellidos: v("nombres_apellidos"),
+      telefono: v("telefono"),
+      email: opt("email")
+    },
+    narrativa_contextual: {
+      autor: v("autor"),
+      descripcion_libre: v("descripcion_libre")
+    },
+    comentarios_adicionales: comentariosConsolidados(),
+    inspectores: {
+      nombre_lider: opt("nombre_lider"),
+      matricula_profesional: opt("inspector_matricula"),
+      numero_evaluadores: v("numero_evaluadores") ? parseInt(v("numero_evaluadores")) : undefined
+    },
+    fecha_hora_inspeccion: v("fecha_hora_inspeccion")
+  };
+}
+
+let casoId = null;
+
+/* ---- Paso 1: crear el caso ---- */
+document.getElementById("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!document.getElementById("consent").checked) {
+    document.getElementById("estadoCaso").innerHTML =
+      '<span class="err">Debe autorizar el tratamiento de datos para continuar.</span>';
+    return;
+  }
+  const btn = document.getElementById("btnCaso"), est = document.getElementById("estadoCaso");
+  btn.disabled = true; est.textContent = "Creando el caso..."; est.className = "estado";
+  try {
+    const r = await fetch(API + "/post-sismo/casos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload())
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(JSON.stringify(d.detail || d, null, 2));
+    casoId = d.caso_id;
+    const cp = d.clasificacion_preliminar || {};
+    const COLOR = { verde: "#16a34a", amarillo: "#f59e0b", naranja: "#ea580c", rojo: "#dc2626" };
+    const etiquetaClas = (cp.clasificacion_final || "").replace(/_/g, " ");
+    const pctDano = (typeof cp.porcentaje_dano_estimado === "number" && cp.porcentaje_dano_estimado > 0)
+      ? ` &middot; daño global estimado: <b>${cp.porcentaje_dano_estimado}%</b>` +
+        (cp.clasificacion_dano ? ` (${cp.clasificacion_dano.replace(/_/g, " ")})` : "")
+      : "";
+    est.innerHTML = `<span class="ok">Caso creado</span> &middot; ${casoId}` +
+      (etiquetaClas
+        ? ` &middot; clasificación preliminar: <b style="color:${COLOR[cp.aviso_color] || "inherit"}">${etiquetaClas}</b>` + pctDano +
+          ' <span style="font-size:12px;color:var(--muted)">(preliminar y automática; el informe final la confirma)</span>'
+        : "");
+    document.getElementById("pasoEvidencia").classList.remove("paso-off");
+    document.getElementById("pasoEvidencia").scrollIntoView({ behavior: "smooth" });
+  } catch (err) {
+    est.innerHTML = `<span class="err">No se pudo crear el caso:</span> <pre style="white-space:pre-wrap;font-size:12px">${err.message}</pre>`;
+    btn.disabled = false;
+  }
+});
+
+/* ---- Paso 2: subir evidencia (campos "fotos" y "videos") ---- */
+document.getElementById("btnEvidencia").addEventListener("click", async () => {
+  const est = document.getElementById("estadoEvidencia"), btn = document.getElementById("btnEvidencia");
+  const fotos = document.getElementById("fotos").files, videos = document.getElementById("videos").files;
+  if (!fotos.length && !videos.length) {
+    est.innerHTML = '<span class="err">Adjunte al menos una fotografía o un video.</span>';
+    return;
+  }
+  btn.disabled = true; est.textContent = "Subiendo archivos..."; est.className = "estado";
+  const fd = new FormData();
+  Array.from(fotos).forEach(f => fd.append("fotos", f));
+  Array.from(videos).forEach(f => fd.append("videos", f));
+  try {
+    const r = await fetch(`${API}/post-sismo/casos/${casoId}/evidencia`, { method: "POST", body: fd });
+    const d = await r.json();
+    if (!r.ok) throw new Error(JSON.stringify(d.detail || d, null, 2));
+    est.innerHTML = `<span class="ok">Evidencia cargada</span> &middot; ${fotos.length} foto(s), ${videos.length} video(s)`;
+    document.getElementById("pasoInforme").classList.remove("paso-off");
+    document.getElementById("pasoInforme").scrollIntoView({ behavior: "smooth" });
+  } catch (err) {
+    est.innerHTML = `<span class="err">Error al subir:</span> ${err.message}`;
+    btn.disabled = false;
+  }
+});
+
+/* ---- Paso 3: generar informe ---- */
+document.getElementById("btnInforme").addEventListener("click", async () => {
+  const est = document.getElementById("estadoInforme"), btn = document.getElementById("btnInforme"),
+        link = document.getElementById("linkInforme");
+  btn.disabled = true;
+  est.textContent = "Analizando evidencia y redactando el informe... puede tardar hasta 90 segundos.";
+  est.className = "estado";
+  try {
+    const r = await fetch(`${API}/post-sismo/casos/${casoId}/generar-informe`, { method: "POST" });
+    const d = await r.json();
+    if (!r.ok) throw new Error(JSON.stringify(d.detail || d, null, 2));
+    est.innerHTML = `<span class="ok">Informe generado</span>`;
+    const url = d.url_informe || d.informe_url || d.url_pdf || d.carpeta_drive;
+    if (url) { link.href = url; link.style.display = "inline"; }
+  } catch (err) {
+    est.innerHTML = `<span class="err">No se pudo generar el informe:</span> ${err.message}`;
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

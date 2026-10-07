@@ -46,6 +46,8 @@ header .container { display:flex; justify-content:space-between; align-items:cen
 .grid-wrap { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:24px; align-items:stretch; }
 .calc-card { background: var(--white); border-radius:16px; padding:32px 26px; box-shadow:0 6px 24px rgba(0,0,0,0.06); border-top:5px solid var(--cyan); display:flex; flex-direction:column; position:relative; }
 .calc-icon { font-size:38px; margin-bottom:16px; }
+.calc-icon-document { height:61px; display:flex; align-items:center; }
+.calc-icon-document::before { content:""; display:block; width:29px; height:37px; border:2px solid var(--navy); border-radius:4px; background:linear-gradient(var(--cyan),var(--cyan)) 6px 8px / 15px 3px no-repeat, linear-gradient(var(--navy),var(--navy)) 6px 17px / 15px 2px no-repeat, linear-gradient(var(--navy),var(--navy)) 6px 24px / 11px 2px no-repeat; }
 .calc-badge { position:absolute; top:16px; right:16px; font-size:11px; padding:4px 10px; border-radius:20px; font-weight:700; background:#d1f7e0; color:#0a7a3d; }
 .calc-badge.soon { background:#eee; color:#888; }
 .calc-card h3 { font-size:17px; color: var(--navy); margin-bottom:10px; }
@@ -115,6 +117,15 @@ header .container { display:flex; justify-content:space-between; align-items:cen
         <p>Cálculo de colectores sanitarios (Manning y UD), redes de agua potable (Hunter y Hazen-Williams) y bajantes pluviales con memoria en Word.</p>
         <div class="calc-norm">Norma NTC 1500 &middot; RAS 0330</div>
         <a href="redes-hidrosanitarias.html" class="btn btn-primary">Ir a la calculadora</a>
+      </div>
+
+      <div class="calc-card">
+        <span class="calc-badge">Disponible ahora</span>
+        <div class="calc-icon calc-icon-document" aria-hidden="true"></div>
+        <h3>Memorias de cálculo de edificaciones NSR-10</h3>
+        <p>Organiza los datos del proyecto, análisis sísmico, viento, cargas y cimentación. Genera la memoria estructural en Word y PDF con trazabilidad y controles de revisión.</p>
+        <div class="calc-norm">NSR-10 &middot; Títulos A, B, C, F y H</div>
+        <a href="memorias-nsr10.html" class="btn btn-primary">Ir al módulo de memorias</a>
       </div>
 
       <div class="calc-card placeholder">

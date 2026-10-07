@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivilMind | Memorias de cálculo de edificaciones NSR-10</title>
+  <meta name="description" content="Memorias de cálculo estructural de edificaciones NSR-10: análisis sísmico, viento, cargas, cimentación y exportación Word/PDF con trazabilidad.">
+  <link rel="icon" type="image/jpeg" href="assets/logo-civilmind.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --cyan:#00c2d4; --cyan-dark:#0093a8; --navy:#0d2438; --gray-bg:#f6f9fb; --text-dark:#1a2b3c; --text-gray:#5a6b7c; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter','Segoe UI',Arial,sans-serif; background:var(--gray-bg); color:var(--text-dark); line-height:1.6; }
+    h1,.logo { font-family:'Poppins','Segoe UI',Arial,sans-serif; }
+    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+    header { background:var(--navy); padding:18px 0; }
+    header .container { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    .logo-wrap { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .logo-img { width:44px; height:36px; object-fit:contain; background:white; border-radius:6px; }
+    .logo-text-col { display:flex; flex-direction:column; line-height:1.1; }
+    .logo { color:white; font-size:22px; font-weight:700; }
+    .highlight-text { color:var(--cyan); }
+    .logo-tagline { font-size:10px; color:#a8bdd0; letter-spacing:.5px; text-transform:uppercase; font-weight:500; }
+    .back-link { color:#cfe0ec; font-size:14px; text-decoration:none; }
+    .back-link:hover { color:var(--cyan); }
+    .breadcrumb { padding:20px 0 0; font-size:13px; color:var(--text-gray); }
+    .breadcrumb a { color:var(--cyan-dark); text-decoration:none; }
+    .intro { text-align:center; padding:32px 0 10px; }
+    .intro h1 { font-size:28px; color:var(--navy); margin-bottom:10px; }
+    .intro p { font-size:15px; color:var(--text-gray); max-width:760px; margin:0 auto; }
+    .norm-tag { display:block; margin-top:10px; font-size:12.5px; color:var(--cyan-dark); font-weight:600; }
+    .direct-link { display:inline-block; margin-top:14px; color:var(--navy); font-size:13px; font-weight:600; text-underline-offset:3px; }
+    .calc-frame-container { max-width:1400px; margin:24px auto 50px; padding:0 16px; }
+    iframe { display:block; width:100%; height:1200px; border:0; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.06); background:white; }
+    .frame-note { color:var(--text-gray); font-size:12px; text-align:center; margin-top:12px; }
+    footer { background:var(--navy); color:#cfe0ec; padding:30px 24px; text-align:center; font-size:13px; }
+    footer a { color:var(--cyan); text-decoration:none; }
+    footer p + p { margin-top:10px; }
+    a:focus-visible { outline:3px solid var(--cyan); outline-offset:4px; }
+    @media (max-width:640px) {
+      header .container { flex-wrap:wrap; }
+      .intro h1 { font-size:23px; }
+      .container { padding:0 18px; }
+      iframe { height:1400px; }
+      .calc-frame-container { padding:0 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/logo-civilmind.jpg" class="logo-img" alt="" width="44" height="36">
+        <span class="logo-text-col"><span class="logo">Civil<span class="highlight-text">Mind</span></span><span class="logo-tagline">Consultoría en Ingeniería</span></span>
+      </a>
+      <a href="calculadoras.html" class="back-link">&larr; Volver a calculadoras</a>
+    </div>
+  </header>
+  <nav class="container breadcrumb" aria-label="Ruta de navegación">
+    <a href="index.html">Inicio</a> &rsaquo; <a href="calculadoras.html">Calculadoras</a> &rsaquo; Memorias NSR-10
+  </nav>
+  <main>
+    <section class="intro">
+      <div class="container">
+        <h1>Memorias de cálculo de edificaciones NSR-10</h1>
+        <p>Organiza los datos del proyecto, el análisis sísmico, las cargas de viento y la cimentación. Genera la memoria estructural en Word editable y PDF, con trazabilidad y controles de revisión.</p>
+        <span class="norm-tag">Reglamento NSR-10 &middot; Títulos A, B, C, F y H</span>
+        <a class="direct-link" href="https://civilmind-memorias-nsr10.onrender.com" target="_blank" rel="noopener noreferrer">Abrir módulo en una pestaña independiente &nearr;</a>
+      </div>
+    </section>
+    <div class="calc-frame-container">
+      <iframe src="https://civilmind-memorias-nsr10.onrender.com/?embed=true" title="CivilMind - Memorias de cálculo estructural NSR-10" allow="clipboard-write; clipboard-read; fullscreen"></iframe>
+      <p class="frame-note">Si el módulo tarda en cargar, puedes abrirlo en una pestaña independiente. Los proyectos se guardan en el navegador; conserva copias de tus entregables.</p>
+    </div>
+  </main>
+  <footer>
+    <p>CivilMind &middot; Memorias de cálculo estructural NSR-10 · <a href="mailto:civilmind.ucros@gmail.com">civilmind.ucros@gmail.com</a></p>
+    <p>&copy; 2026 CivilMind. Herramienta de apoyo al diseño. No sustituye la revisión y firma del ingeniero responsable.</p>
+  </footer>
+</body>
+</html>

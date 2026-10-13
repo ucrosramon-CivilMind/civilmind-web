@@ -1,0 +1,4 @@
+dist-site/
+.netlify/
+.env*
+!.env.example

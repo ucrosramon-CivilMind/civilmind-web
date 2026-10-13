@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "22.23.3"
+  DESPIECE_APP_URL = "https://civilmind-despiece.onrender.com"
 
 [[redirects]]
   from = "/despiece-concreto"

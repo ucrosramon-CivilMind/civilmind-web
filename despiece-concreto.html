@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Importación ETABS, revisión de armado de vigas, columnas y muros, planos DXF y cantidades de acero.">
+  <title>Despiece de concreto reforzado | CivilMind</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo-civilmind.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --cyan:#00c2d4; --navy:#0d2438; --bg:#f6f9fb; --text:#1a2b3c; --muted:#5a6b7c; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    header { background:var(--navy); padding:18px 0; }
+    .container { max-width:1200px; margin:auto; padding:0 24px; }
+    header .container { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+    .brand { display:flex; align-items:center; gap:12px; color:white; text-decoration:none; font-family:Poppins,sans-serif; font-weight:700; font-size:22px; }
+    .brand svg { width:34px; height:34px; color:var(--cyan); }
+    .brand span span { color:var(--cyan); }
+    .back { color:#cfe0ec; text-decoration:none; font-size:14px; }
+    .breadcrumb { padding-top:20px; font-size:13px; color:var(--muted); }
+    .breadcrumb a { color:#007c8c; text-decoration:none; }
+    .intro { padding:32px 0 16px; text-align:center; }
+    h1 { font-family:Poppins,sans-serif; font-size:clamp(23px,3vw,30px); color:var(--navy); margin-bottom:12px; }
+    .intro p { max-width:780px; margin:auto; font-size:15px; color:var(--muted); }
+    .actions { margin-top:18px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+    .direct { background:var(--cyan); border-radius:8px; color:var(--navy); padding:10px 16px; font-size:14px; font-weight:600; text-decoration:none; }
+    .frame-wrap { max-width:1440px; margin:16px auto 40px; padding:0 16px; }
+    iframe { display:block; width:100%; height:1300px; border:0; border-radius:16px; background:white; box-shadow:0 4px 20px #0d243810; }
+    .note { max-width:900px; margin:16px auto 0; color:var(--muted); text-align:center; font-size:13px; padding:0 16px; }
+    footer { background:var(--navy); color:#cfe0ec; text-align:center; padding:24px; font-size:13px; }
+    a:focus-visible { outline:3px solid var(--cyan); outline-offset:4px; }
+    @media(max-width:640px) { .container { padding:0 18px; } .frame-wrap { padding:0 8px; } iframe { height:1500px; } }
+    @media(prefers-color-scheme:dark) { body { --bg:#101e2b; --text:#e4eef6; --muted:#b1c3d1; } h1 { color:#e4eef6; } .breadcrumb a { color:var(--cyan); } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="index.html" class="brand" aria-label="CivilMind, inicio">
+        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d="M6 28V8h24v20M6 18h24M18 8v20" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="8" r="3" fill="currentColor"/><circle cx="30" cy="28" r="3" fill="currentColor"/></svg>
+        <span>Civil<span>Mind</span></span>
+      </a>
+      <a href="calculadoras.html" class="back">&larr; Volver a calculadoras</a>
+    </div>
+  </header>
+  <nav class="container breadcrumb" aria-label="Ruta de navegación">
+    <a href="index.html">Inicio</a> &rsaquo; <a href="calculadoras.html">Calculadoras</a> &rsaquo; Despiece de concreto
+  </nav>
+  <main>
+    <section class="intro container">
+      <h1>Despiece de concreto reforzado</h1>
+      <p>Importa el modelo ETABS y revisa sus elementos antes de cargarlos. Ajusta el armado de vigas, columnas y muros y exporta los planos DXF y las cantidades calculadas.</p>
+      <div class="actions">
+        <a class="direct" href="__DESPIECE_APP_URL__/?embed=true#despiece-estructural" target="_blank" rel="noopener noreferrer">Abrir módulo en una pestaña independiente &nearr;</a>
+      </div>
+    </section>
+    <div class="frame-wrap">
+      <iframe src="__DESPIECE_APP_URL__/?embed=true#despiece-estructural" title="CivilMind: importación ETABS y despiece de concreto reforzado" allow="clipboard-write; clipboard-read; fullscreen"></iframe>
+      <p class="note">Si el servicio tarda en iniciar, abre el módulo en una pestaña independiente. Conserva copias de tus archivos y entregables; la herramienta no reemplaza la revisión estructural ni la firma del ingeniero responsable.</p>
+    </div>
+  </main>
+  <footer>CivilMind &middot; NSR-10, Título C &middot; Herramienta de apoyo al detallado estructural.</footer>
+</body>
+</html>

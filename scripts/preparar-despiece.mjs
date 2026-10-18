@@ -12,10 +12,23 @@ if ((!local && url.protocol !== 'https:') || url.username || url.password || url
     url.pathname !== '/' || url.origin !== raw.replace(/\/$/, '')) {
   throw Error('DESPIECE_APP_URL debe ser un origen HTTPS, sin ruta, credenciales ni parámetros.');
 }
-const health = await fetch(`${url.origin}/api/health`, { signal: AbortSignal.timeout(60000) });
-if (!health.ok || (await health.json()).service !== 'civilmind-despiece') {
-  throw Error('El destino no respondió como civilmind-despiece. No se publicará una tarjeta rota.');
+const esperar = ms => new Promise(r => setTimeout(r, ms));
+async function verificarServicio(intentos = 5) {
+  let ultimoError;
+  for (let i = 1; i <= intentos; i++) {
+    try {
+      const health = await fetch(`${url.origin}/api/health`, { signal: AbortSignal.timeout(60000) });
+      if (health.ok && (await health.json()).service === 'civilmind-despiece') return;
+      ultimoError = new Error(`Respuesta inesperada (HTTP ${health.status})`);
+    } catch (e) {
+      ultimoError = e;
+    }
+    console.log(`Intento ${i}/${intentos}: el servicio de despiece aún no responde (${ultimoError.message}).`);
+    if (i < intentos) await esperar(10000);
+  }
+  throw Error(`El destino no respondió como civilmind-despiece tras ${intentos} intentos. No se publicará una tarjeta rota.`);
 }
+await verificarServicio();
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 for (const file of fs.readdirSync(root)) {

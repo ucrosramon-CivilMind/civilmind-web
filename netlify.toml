@@ -1,5 +1,15 @@
 [build]
-  publish = "."
+  command = "node scripts/preparar-despiece.mjs"
+  publish = "dist-site"
+
+[build.environment]
+  NODE_VERSION = "22.23.3"
+  DESPIECE_APP_URL = "https://civilmind-despiece.onrender.com"
+
+[[redirects]]
+  from = "/despiece-concreto"
+  to = "/despiece-concreto.html"
+  status = 200
 
 [[redirects]]
   from = "/calculadora"
@@ -9,6 +19,16 @@
 [[redirects]]
   from = "/calculadoras"
   to = "/calculadoras.html"
+  status = 200
+
+[[redirects]]
+  from = "/memorias-nsr10"
+  to = "/memorias-nsr10.html"
+  status = 200
+
+[[redirects]]
+  from = "/redes-hidrosanitarias"
+  to = "/redes-hidrosanitarias.html"
   status = 200
 
 [[redirects]]
@@ -24,4 +44,14 @@
 [[redirects]]
   from = "/cerebro-colectivo"
   to = "/cerebro-colectivo.html"
+  status = 200
+
+[[redirects]]
+  from = "/gestion-proyectos"
+  to = "/gestion-proyectos.html"
+  status = 200
+
+[[redirects]]
+  from = "/planes-precios"
+  to = "/planes-precios.html"
   status = 200

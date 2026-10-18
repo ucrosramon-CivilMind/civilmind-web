@@ -55,3 +55,8 @@
   from = "/planes-precios"
   to = "/planes-precios.html"
   status = 200
+
+[[redirects]]
+  from = "/contacto"
+  to = "/contacto.html"
+  status = 200

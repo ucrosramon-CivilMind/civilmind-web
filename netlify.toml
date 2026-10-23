@@ -65,3 +65,8 @@
   from = "/gestion-oficina-tecnica"
   to = "/gestion-oficina-tecnica.html"
   status = 200
+
+[[redirects]]
+  from = "/gestion-control-obra"
+  to = "/gestion-control-obra.html"
+  status = 200
